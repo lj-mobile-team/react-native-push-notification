@@ -364,7 +364,8 @@ public class RNPushNotificationHelper {
               notification.setLargeIcon(largeIconBitmap);
             }
 
-            String message = bundle.getString("message");
+            String rawMessage = bundle.getString("message");
+            Spanned message = HtmlCompat.fromHtml(rawMessage, HtmlCompat.FROM_HTML_MODE_LEGACY);
 
             notification.setContentText(message);
 
@@ -372,6 +373,15 @@ public class RNPushNotificationHelper {
 
             if (subText != null) {
                 notification.setSubText(subText);
+            }
+            
+            String rawBigText = bundle.getString("bigText");
+            Spanned spannedBigText = null;
+
+            if (rawBigText == null) {
+                spannedBigText = message;
+            } else {
+                spannedBigText = HtmlCompat.fromHtml(rawBigText, HtmlCompat.FROM_HTML_MODE_LEGACY);
             }
 
             NotificationCompat.Style style;
